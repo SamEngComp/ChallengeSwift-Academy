@@ -3,22 +3,9 @@ class World{
     var tamagotchi: Baby
     var loja: Mercado
     
-    var timer = Timer()
-    var time = 0
-    
     init(){
         self.tamagotchi = Baby()
         self.loja = Mercado()
-    }
-    
-    func start(){
-        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: action_time(t: ))
-    }
-    
-    func action_time(t: Timer){
-        self.time += 1
-        
-        print("\(time) s")
     }
     
      func menu_geladeira(){
