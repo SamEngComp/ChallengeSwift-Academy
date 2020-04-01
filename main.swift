@@ -2,8 +2,6 @@ import Foundation
 
 var teste = World()
 
-teste.start()
-
 func status(){
      print("""
                                                        
