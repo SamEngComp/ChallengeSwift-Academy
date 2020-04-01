@@ -1,20 +1,32 @@
 import Foundation
 
+// Esse é o mundo do Tamagotchi
 var teste = World()
 
-
+/* Barra de Status do Tamagotchi
+ em que será mostrado a Energia e a Nutrição dele
+*/
+//---------------------------------------------------------------
 func status(){
      print("""
                                                        
 --------------------------------------------------------
         Energia - \(teste.tamagotchi.energia)
-        hunger - \(teste.tamagotchi.alimentacaoStatus)
+        Nutrição - \(teste.tamagotchi.alimentacaoStatus)
+        Saúde - \(teste.tamagotchi.saudeContador) %
+        Dinheiro - \(teste.tamagotchi.dinheiro) R$
 --------------------------------------------------------
 
 """)
-        
-    }
+}
+//---------------------------------------------------------------
 
+
+
+/* Estamos deixando o mercado previamente abastecido
+para o bom funcionamento do jogo
+ */
+//-----------------------------------------------------------
 let maca = Mercadoria("Maçã", 12, 1.3)
 let banana = Mercadoria("Banana", 11, 1.0)
 let manga = Mercadoria("Manga", 12, 1.5)
@@ -31,9 +43,21 @@ teste.loja.addRemedio(dipirona)
 teste.loja.addRemedio(ibuprofeno)
 teste.loja.addRemedio(dorflex)
 
-teste.tamagotchi.alimentacaoStatus = 20
-teste.tamagotchi.higieneStatus = false
-teste.tamagotchi.saudeStatus = false
+//-------------------------------------------------------------
+
+
+
+// Menu Principal do Tamagotchi
+/* Aqui você poderá:
+ alimentar
+ medicar
+ limpar
+ colocar para dormir ou acordar
+ comprar suprimentos e remedios
+ brincar
+ com seu Tamagotchi
+ */
+//---------------------------------------------------------------
 func menuP(){
     teste.tamagotchi.estado()
     status()
@@ -50,37 +74,55 @@ var entrada = 0
                 entrada = 0
                 teste.invalidoPrint()
             }else{
+                if teste.tamagotchi.dormindoStatus {
+                    if entrada == 0 || entrada < 0 || entrada > 2{
+                        entrada = 0
+                        teste.invalidoPrint()
+                    }else{
+                        if entrada == 1 {
+                            dorAcor()
+                        }else{
+                            entrada = 7
+                        }
+                    }
+                }else{
+                    switch entrada {
+                    case 1:
+                        geladeira()
+                        break
+                    case 2:
+                        farmacia()
+                        break
+                    case 3:
+                        limpar()
+                        break
+                    case 4:
+                        dorAcor()
+                        break
+                    case 5:
+                        comprar()
+                        break
+                    case 6:
+                        jogar()
+                        break
+                    case 7:
+                        print("Até mais!")
+                    default:
+                        print("OPs")
+                    }
                 
-                switch entrada {
-                case 1:
-                    geladeira()
-                    break
-                case 2:
-                    farmacia()
-                    break
-                case 3:
-                    limpar()
-                    break
-                case 4:
-                    dorAcor()
-                    break
-                case 5:
-                    comprar()
-                    break
-                case 6:
-                    jogar()
-                    break
-                default:
-                    print("Ate' a proxima")
                 }
-                
-                
                 
             }
         }
     }while entrada != 7
 }
+//---------------------------------------------------------------
 
+
+// Geladeira do Tamagotchi
+// Aqui onde fica armazenado todos os alimentos
+//---------------------------------------------------------------
 func geladeira(){
     teste.menu_geladeira()
     
@@ -99,7 +141,12 @@ func geladeira(){
     }
     
 }
+//---------------------------------------------------------------
 
+
+// Farmacia
+// Aqui onde fica armazenado todos os remedios
+//---------------------------------------------------------------
 func farmacia(){
     teste.menu_farmacia()
     
@@ -117,15 +164,32 @@ func farmacia(){
         }
     }
 }
+//---------------------------------------------------------------
 
+
+// Essa função serve para banhar o tamagotchi
+//---------------------------------------------------------------
 func limpar(){
     teste.tamagotchi.limpar()
+    teste.tamagotchi.estado()
+    status()
 }
+//---------------------------------------------------------------
 
+
+// Essa função serve para fazer acordar/dormir o tamagotchi
+//---------------------------------------------------------------
 func dorAcor(){
     teste.tamagotchi.dormir()
+    teste.tamagotchi.estado()
+    status()
 }
+//---------------------------------------------------------------
 
+
+// Essa função permite que você reabasteca a geladeira ou/e
+// a farmacia
+//---------------------------------------------------------------
 func comprar(){
     teste.menu_mercado()
     if let input = readLine(){
@@ -139,9 +203,11 @@ func comprar(){
         }
     }
 }
+//---------------------------------------------------------------
 
 func jogar(){
-    
+    teste.tamagotchi.jogar()
+    teste.tamagotchi.estado()
+    status()
 }
-
 menuP()

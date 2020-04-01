@@ -1,13 +1,21 @@
 import Foundation
+// World é o pequeno mundo de tamagotchi o Baby
 class World{
+    //Atributos
+    /* Esse mundo é constituido do Baby e da Loja onde ele adiquire as
+     Mercadorias*/
+    //_________________________
     var tamagotchi: Baby
     var loja: Mercado
+    //-------------------------
     
     init(){
         self.tamagotchi = Baby()
         self.loja = Mercado()
     }
     
+    //menu geladeira
+//-----------------------------------------------
      func menu_geladeira(){
         print("""
 
@@ -41,7 +49,10 @@ class World{
 """)
         }
   }
-
+//-----------------------------------------------
+    
+    // menu farmacia
+//-----------------------------------------------
   func menu_farmacia(){
         print("""
 **************************************
@@ -75,7 +86,22 @@ class World{
 """)
     }
   }
+//-----------------------------------------------
+    
+    //menu principal
+//-----------------------------------------------
     func menu_principal(){
+        
+        if self.tamagotchi.dormindoStatus {
+            print("""
+--------------------------------------
+| 1- Acordar                         |
+| 2- Sair                            |
+--------------------------------------
+""")
+            return
+        }
+        
         print("""
 --------------------------------------
 | 1- Alimentar                       |
@@ -100,7 +126,10 @@ ______________________________________
 
 """)
     }
+//-----------------------------------------------
     
+    //menu mercado
+//-----------------------------------------------
     func menu_mercado(){
         print("""
 **************************************
@@ -141,16 +170,39 @@ ______________________________________
 
 """)
 }
+//-----------------------------------------------
     
+    // funcao para comprar um produto
+//-----------------------------------------------
     func comprarMercadoria(_ id: Int){
+        
+        let nao = """
+--------------------------------------
+|   SEU DINHEIRO NAO É INSUFICIENTE  |
+--------------------------------------
+"""
+        
         if self.loja.listaAlimento.count > id{
-            self.tamagotchi.addAlimentoGel(self.loja.listaAlimento[id])
+            if(self.tamagotchi.dinheiro >= self.loja.listaAlimento[id].preco){
+                self.tamagotchi.addAlimentoGel(self.loja.listaAlimento[id])
+                self.tamagotchi.dinheiro -= self.loja.listaAlimento[id].preco
+            }else{
+                print(nao)
+            }
         }else{
             let aux = id - self.loja.listaAlimento.count
-            self.tamagotchi.addRemedioFar(self.loja.listaRemedio[aux])
+            if(self.tamagotchi.dinheiro >= self.loja.listaRemedio[aux].preco){
+                self.tamagotchi.addRemedioFar(self.loja.listaRemedio[aux])
+                self.tamagotchi.dinheiro -= self.loja.listaRemedio[aux].preco
+            }else{
+                print(nao)
+            }
         }
     }
+//-----------------------------------------------
     
+    // para imprimir um valor nao existente
+//-----------------------------------------------
     func invalidoPrint(){
         print("""
 
@@ -159,6 +211,9 @@ ______________________________________
 --------------------------------------
 
 """)
+//-----------------------------------------------
     }
+    
+    
     
 }
