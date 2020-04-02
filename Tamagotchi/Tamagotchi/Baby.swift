@@ -70,7 +70,11 @@ class Baby{
     }
 //-------------------------------------------------------------------------
 
-
+    func ganharDinheiro (){
+        _ = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) { timer in
+            self.dinheiro += 10.0
+        }
+    }
 
     // Alimentar o Baby
 //-------------------------------------------------------------------------
@@ -190,7 +194,7 @@ class Baby{
     func dormir(){
         // Se ele estiver 100% de ebergia nao precisa dormir
         //ou se ele ja tiver dormindo e chegar a 100% o acorda
-
+        
         if self.energia == 100 {
             if self.dormindoStatus == true{
                 self.dormindoStatus = false
@@ -203,7 +207,7 @@ class Baby{
 """)
             }
         }else{
-            //Verificar se o baby estar dormindo
+            //Verificar se o baby está dormindo
             if self.dormindoStatus == true{
                 self.prints.ligarLuz()
                 self.dormindoStatus = false
@@ -217,6 +221,10 @@ class Baby{
                 // Caso esteja acordado colcar para dormir
                 self.dormindoStatus = true
                 self.prints.dormindo_print()
+                _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { myTimer in
+                    self.energia = 100
+                    print("Sonim bom!")
+                }
             }
         }
     }
