@@ -207,24 +207,22 @@ class Baby{
 """)
             }
         }else{
-            //Verificar se o baby está dormindo
-            if self.dormindoStatus == true{
-                self.prints.ligarLuz()
-                self.dormindoStatus = false
-                verificar_energia()
-                
-                //Caso ele acorde e nao esteja no minino com energia
-                if self.sonoStatus{
-                    self.prints.sono_print()
-                }
-            }else{
                 // Caso esteja acordado colcar para dormir
                 self.dormindoStatus = true
                 self.prints.dormindo_print()
-                _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { myTimer in
+                /*
+                 // essa parte nao foi possível ser adicionado nessa primeira versao
+                 _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { myTimer in
                     self.energia = 100
                     print("Sonim bom!")
+                }*/
+                // entao ficou decido colocar 50 de energia a cada vezes que ele dormir
+                if self.energia + 50 <= 100{
+                    self.energia += 50
+                }else{
+                    self.energia = 100
                 }
+
             }
         }
     }
@@ -321,15 +319,25 @@ class Baby{
             self.verificar_energia()
             return
         }else if self.energia - 10 >= 0{
-            if(self.energia <= 30){
-                self.saudeContador -= 10
+            if self.energia <= 40 {
+                if self.saudeContador - 10 >= 0{
+                    self.saudeContador -= 10
+                }else{
+                    self.saudeContador = 0
+                }
             }
             self.energia -= 10
         }else{
             self.energia = 0
+            if self.saudeContador - 10 >= 0{
+                self.saudeContador -= 10
+            }else{
+                self.saudeContador = 0
+            }
         }
         self.alimentacaoStatus -= 2
         self.dinheiro += 3.0
+        self.verificar_saude()
         self.verificar_energia()
     }
 //-------------------------------------------------------------------------
